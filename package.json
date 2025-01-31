@@ -1,0 +1,22 @@
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Bot de WhatsApp utilizando whatsapp-web.js",
+  "main": "chatbot.js",
+  "scripts": {
+    "start": "node chatbot.js",
+    "build": "apt-get update && apt-get install -y libnss3 libatk1.0-0 libx11-xcb1 libxcomposite1 libxrandr2 libxdamage1 libxkbcommon0 libasound2"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.45",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.18.6",
+    "puppeteer-core": "^20.8.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [],
+  "author": "Natã Vaz",
+  "license": "ISC"
+}
