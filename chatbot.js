@@ -75,8 +75,7 @@ const saveFollowUpTimers = () => {
 const scheduleFirstFollowUp = (from, timeRemaining = 59 * 60 * 1000) => {
 
     const timer = setTimeout(async () => {
-        const contact = await msg.getContact();
-        const name = contact.pushname || 'Cliente';
+
 
         await client.sendMessage(from, 'Tudo bem? Seu interesse em adquirir o veículo seria *a vista* ou *financiado*?');
        
@@ -84,7 +83,7 @@ const scheduleFirstFollowUp = (from, timeRemaining = 59 * 60 * 1000) => {
         scheduleSecondFollowUp(from);
         followUpTimers.delete(from);
         saveFollowUpTimers();
-        console.log('CLIENTE AINDA NAO RESPONDEU 1', name.split(" ")[0]);
+        console.log('CLIENTE AINDA NAO RESPONDEU 1');
     }, timeRemaining);
 
     followUpTimers.set(from, { timer, timeRemaining, followUpType: 'first' });
@@ -94,14 +93,13 @@ const scheduleFirstFollowUp = (from, timeRemaining = 59 * 60 * 1000) => {
 
 const scheduleSecondFollowUp = (from, timeRemaining = 4 * 60 * 60 * 1000) => {
     const timer = setTimeout(async () => {
-        const contact = await msg.getContact();
-        const name = contact.pushname || 'Cliente';
+
 
         await client.sendMessage(from, 'Seu interesse em adquirir o veículo seria *a vista* ou *financiado*?');
         
         followUpTimers.delete(from);
         saveFollowUpTimers();
-        console.log('CLIENTE AINDA NAO RESPONDEU 2', name.split(" ")[0]);
+        console.log('CLIENTE AINDA NAO RESPONDEU 2');
     }, timeRemaining);
 
     followUpTimers.set(from, { timer, timeRemaining, followUpType: 'second' });
