@@ -125,31 +125,34 @@ client.on('message', async msg => {
     if (msg.body.match(/(Olá|olá|ola|Ola)/i) && msg.from.endsWith('@c.us')) {
         if (!initialMessageSent.has(msg.from) || (now - lastSent > twentyFourHours)) {
             const chat = await msg.getChat();
-            await delay(1000);
+            await delay(10000);
             await chat.sendStateTyping();
-            await delay(1000);
+            await delay(15000);
             const contact = await msg.getContact();
             const name = contact.pushname || 'Cliente';
-
-            await client.sendMessage(
-                msg.from,
-                `Olá\n` +
-                'Seja bem-vindo à maior concessionária online do Brasil, *Líder Auto Veículos*.\n' +
-                'Meu nome é *Caio Dourado*, e vou te atender.\n' +
-                'Seu interesse em adquirir o veículo seria *à vista* ou *financiado*?'
-            );
+    
+            
+            const greetingMessages = [
+                `Olá\nSeja bem-vindo à maior concessionária online do Brasil, *Líder Auto Veículos*.\nMeu nome é *Caio Dourado*, e vou te atender.\nSeu interesse em adquirir o veículo seria *à vista* ou *financiado*?`,
+                `Bem vindo a *Lider auto veículos*!\nSomos de *Brasília*. O seu interesse seria *à vista* ou *financiado*?`,
+                `Oiiii!!  meu nome é *Caio Dourado* sou representante de vendas da *Líder Auto Veículos*! Somos de *Brasília*.\nA sua preferência seria comprar um veículo *à vista* ou *financiado*?`,
+                `Seja bem vindo à *Líder auto veículos*! somos de Brasília.\nHoje você buscar adquirir um veículo *à vista* ou *financiado*?`
+            ];
+    
+            
+            const getRandomMessage = (messages) => messages[Math.floor(Math.random() * messages.length)];
+    
+            await client.sendMessage(msg.from, getRandomMessage(greetingMessages));
+    
             initialMessageSent.add(msg.from);
             saveInitialMessageSent();
-
-           
             lastMessageTime.set(msg.from, now);
-
-            
             scheduleFirstFollowUp(msg.from);
-
+    
             console.log('Chat iniciado com', name.split(" ")[0]);
         }
     }
+    
 
    
     const vistaPattern = /^(avista|a vista|a-vista|avsta|avista!|à vista)$/i;
@@ -160,9 +163,9 @@ client.on('message', async msg => {
         cancelFollowUpTimers(msg.from);
 
         const chat = await msg.getChat();
-        await delay(1000);
+        await delay(8000);
         await chat.sendStateTyping();
-        await delay(1000);
+        await delay(20000);
 
         if (msg.body.match(vistaPattern)) {
             await client.sendMessage(msg.from, 'Ótimo! Vamos prosseguir com as informações para pagamento à vista.');
